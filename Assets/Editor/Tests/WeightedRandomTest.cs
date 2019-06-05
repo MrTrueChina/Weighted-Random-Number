@@ -47,13 +47,47 @@ public class WeightedRandomTest
     {
         Dictionary<int, int> probebilities = new Dictionary<int, int>()
         {
-            { 1, 1 },
-            { 2, 2 },
-            { 3, 3 },
+            { 10, 1 },
+            { 20, 2 },
+            { 30, 3 },
         };
         _weightedRandom = new WeightedRandom(probebilities);
         Assert.AreEqual(probebilities, GetProbabilities(_weightedRandom));
         Assert.AreEqual(6, _totalProbability);
+    }
+
+    /// <summary>
+    /// 传几率构造，传0几率的情况
+    /// </summary>
+    [Test]
+    public void WeightedRandom_Dictionary_ZeroProbability()
+    {
+        Dictionary<int, int> probebilities = new Dictionary<int, int>()
+        {
+            { 10, 1 },
+            { 20, 2 },
+            { 30, 0 },
+        };
+        _weightedRandom = new WeightedRandom(probebilities);
+        Assert.AreEqual(2, GetProbabilities(_weightedRandom).Count);
+        Assert.AreEqual(3, _totalProbability);
+    }
+
+    /// <summary>
+    /// 传几率构造，传负数几率的情况
+    /// </summary>
+    [Test]
+    public void WeightedRandom_Dictionary_NegativeProbability()
+    {
+        Dictionary<int, int> probebilities = new Dictionary<int, int>()
+        {
+            { 10, 1 },
+            { 20, 2 },
+            { 30, -10 },
+        };
+        _weightedRandom = new WeightedRandom(probebilities);
+        Assert.AreEqual(2, GetProbabilities(_weightedRandom).Count);
+        Assert.AreEqual(3, _totalProbability);
     }
 
     /// <summary>
@@ -62,7 +96,7 @@ public class WeightedRandomTest
     [Test]
     public void SetProbability_New()
     {
-        int value = 1;
+        int value = 10;
         int probebility = 1;
         _weightedRandom.SetProbability(value, probebility);
         Assert.AreEqual(probebility, _probebilities[value]);
@@ -75,7 +109,7 @@ public class WeightedRandomTest
     [Test]
     public void SetProbability_Overlay()
     {
-        int value = 1;
+        int value = 10;
         int oldProbebility = 1;
         int newProbebility = 1;
         _weightedRandom.SetProbability(value, oldProbebility);
@@ -91,7 +125,7 @@ public class WeightedRandomTest
     [Test]
     public void SetProbability_Zero()
     {
-        int value = 1;
+        int value = 10;
         _weightedRandom.SetProbability(value, 10);
         _weightedRandom.SetProbability(value, 0);
         Assert.AreEqual(0, _probebilities.Count);
@@ -104,7 +138,7 @@ public class WeightedRandomTest
     [Test]
     public void SetProbability_Negative()
     {
-        int value = 1;
+        int value = 10;
         _weightedRandom.SetProbability(value, 10);
         _weightedRandom.SetProbability(value, -1);
         Assert.AreEqual(0, _probebilities.Count);
@@ -117,7 +151,7 @@ public class WeightedRandomTest
     [Test]
     public void RemoveProbability_Exist()
     {
-        int value = 1;
+        int value = 10;
         _weightedRandom.SetProbability(value, 10);
         bool result = _weightedRandom.RemoveProbability(value);
         Assert.AreEqual(true, result);
@@ -130,7 +164,7 @@ public class WeightedRandomTest
     [Test]
     public void RemoveProbability_NonExist()
     {
-        int value = 1;
+        int value = 10;
         bool result = _weightedRandom.RemoveProbability(value);
         Assert.AreEqual(false, result);
         Assert.AreEqual(0, _totalProbability);

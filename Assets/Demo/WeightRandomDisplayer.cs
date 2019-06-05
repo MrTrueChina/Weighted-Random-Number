@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class WeightRandomDisplayer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Dictionary<int, int> _probabilitys = new Dictionary<int, int>
     {
-        
+        { 0, 1 },
+        { 5, 3 },
+        { 10, 1 },
+    };
+    WeightedRandom _weightedRandom;
+
+    private void Awake()
+    {
+        _weightedRandom = new WeightedRandom(_probabilitys);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        Debug.Log(_weightedRandom.GetInt());
     }
 }

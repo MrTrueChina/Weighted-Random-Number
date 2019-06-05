@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WeightedRandom
 {
@@ -16,7 +17,11 @@ public class WeightedRandom
     /// <param name="probabilities"></param>
     public WeightedRandom(Dictionary<int, int> probabilities)
     {
-        _probabilities = probabilities;
+        _probabilities = probabilities.Where(p => p.Value > 0).ToDictionary(p => p.Key, p => p.Value); // 取出传入的 Dictionary 中的几率为正数的元素并转换为一个新的 Dictionary 保存起来
+        //Dictionary.Where()：获取符合指定标准的元素存入一个 IEnumerable 中返回。一般参数是 Lambda 表达式，参数方法的标准是：参数是单个 KeyValuePair，返回值是表示是否符合标准的 bool
+        //IEnumerable.ToDictionary()：将 IEnumerable 的元素按照指定标准转换为 Dictionary。参数是两个方法，参数都是单个 KeyValuePair，第一个返回值是 Dictionary 的 Key，第二个的返回值则是 Dictionary 的 Value
+        //这两个方法都是 System.Linq 提供的扩展方法
+        //参数叫 p 是取了 probability 的首字母
 
         UpdateTotalProbability();
     }
