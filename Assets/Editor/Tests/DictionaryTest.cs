@@ -66,4 +66,31 @@ public class DictionaryTest
 
         Debug.Log("Dictionary 是按照存入顺序保持有序的");
     }
+
+    /// <summary>
+    /// 测试 Dictionary 的 Add 方法对于已有的Key是否覆盖
+    /// </summary>
+    [Test]
+    public void AddOverlay()
+    {
+        int key = 1;
+        int oldValue = 1;
+        int newValue = 2;
+
+        _dictionary.Add(key, oldValue);
+
+        try
+        {
+            _dictionary.Add(key, newValue);
+
+            if (_dictionary.Count == 1 && _dictionary[key] == newValue)
+                Debug.Log("Dictionary 的 Add 方法是对于相同的 Key 进行覆盖的");
+            else
+                Debug.Log("Dictionary 的 Add 方法不是对于相同的 Key 进行覆盖的");
+        }
+        catch (System.ArgumentException)
+        {
+            Debug.Log("Dictionary 的 Add 方法不能添加已存在的 Key");
+        }
+    }
 }
