@@ -39,5 +39,5 @@ sysinfo.txt
 #meta
 *.meta
 
-#log
-[Ll]og/
+#logs
+[Ll]ogs/
