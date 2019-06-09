@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using UnityEngine.UI;
-using System.Text;
+﻿using MtC.Tools.Random;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 用于演示带权重随机数生成的组件
 /// </summary>
 public class WeightRandomDisplayer : MonoBehaviour
 {
+#pragma warning disable 0649 // 这个版本的 Unity 和 VS 相性不好，SerilizeField 会显示没有初始化警告，用这个预处理指令清除掉
     [SerializeField]
     InputField _probabilitiesInputField;
+#pragma warning disable 0649
     [SerializeField]
     Text _resultText;
 
@@ -37,15 +39,22 @@ public class WeightRandomDisplayer : MonoBehaviour
             probabilities = InputToDictionary();
             DoShow(probabilities);
         }
-        catch (OverflowException)
+        catch (OverflowException e)
         {
-            _resultText.text="无法获取随机数，因为有至少一个数字或几率超出了 int 型的范围";
+            if (e.Message == "所有值的几率总和超出了 int 型的范围")
+                _resultText.text = "无法获取随机数，因为所有值的几率之和超出了 int 型的范围";
+            else
+                _resultText.text = "无法获取随机数，因为有至少一个数字或几率超出了 int 型的范围";
         }
         catch (FormatException)
         {
             _resultText.text = "无法获取随机数，因为输入的几率格式不正确，请按照如下格式输入：\n数字:几率\n数字:几率\n……\n中间的冒号是英文冒号";
         }
-        catch(Exception e)
+        catch (ArgumentException)
+        {
+            _resultText.text = "无法获取随机数，可能是因为输入的几率中有重复的数字，同一个数字请不要输入一个以上的几率";
+        }
+        catch (Exception e)
         {
             _resultText.text = "无法获取随机数，因为出现了设计之外的bug，详细信息请看输出";
             Debug.LogError(e);
