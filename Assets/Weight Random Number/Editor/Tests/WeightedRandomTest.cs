@@ -8,17 +8,26 @@ using System.Reflection;
 public class WeightedRandomTest
 {
     WeightedRandom _weightedRandom;
-    Dictionary<int, int> _probebilities;
+    Dictionary<int, int> _probebilities
+    {
+        get
+        {
+            return GetProbabilities(_weightedRandom);
+        }
+    }
+
     int _totalProbability
     {
-        get { return GetTotalProbabilitiy(_weightedRandom); }
+        get
+        {
+            return GetTotalProbabilitiy(_weightedRandom);
+        }
     }
 
     [SetUp]
     public void SetUp()
     {
         _weightedRandom = new WeightedRandom();
-        _probebilities = GetProbabilities(_weightedRandom);
     }
 
     [TearDown]
@@ -35,8 +44,8 @@ public class WeightedRandomTest
     {
         _weightedRandom = new WeightedRandom();
 
-        Assert.AreEqual(0, GetProbabilities(_weightedRandom).Count);
-        Assert.AreEqual(0, GetTotalProbabilitiy(_weightedRandom));
+        Assert.AreEqual(0, _probebilities.Count);
+        Assert.AreEqual(0, _totalProbability);
     }
 
     /// <summary>
@@ -54,7 +63,7 @@ public class WeightedRandomTest
 
         _weightedRandom = new WeightedRandom(probebilities);
 
-        Assert.AreEqual(probebilities, GetProbabilities(_weightedRandom));
+        Assert.AreEqual(probebilities, _probebilities);
         Assert.AreEqual(6, _totalProbability);
     }
 
@@ -73,7 +82,7 @@ public class WeightedRandomTest
 
         _weightedRandom = new WeightedRandom(probebilities);
 
-        Assert.AreEqual(2, GetProbabilities(_weightedRandom).Count);
+        Assert.AreEqual(2, _probebilities.Count);
         Assert.AreEqual(3, _totalProbability);
     }
 
@@ -92,7 +101,7 @@ public class WeightedRandomTest
 
         _weightedRandom = new WeightedRandom(probebilities);
 
-        Assert.AreEqual(2, GetProbabilities(_weightedRandom).Count);
+        Assert.AreEqual(2, _probebilities.Count);
         Assert.AreEqual(3, _totalProbability);
     }
 
