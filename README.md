@@ -3,15 +3,19 @@
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
 ## 使用方法
-使用方法有两种：通过静态方法和通过非静态方法。
+### 1.导入
+将 <b>Build</b> 文件夹下的 <b>Weight Random Number.unitypackage</b> 资源包导入项目即可使用<br/>
+也可以只复制 <b>Assets/Weight Random Number/WeightedRandom.cs</b> 脚本到项目里，同样可以使用<br/>
 
-### 使用静态方法：
+### 2.使用
+使用方法有<b>两种</b>：通过静态方法和通过非静态方法。
+#### 使用静态方法：
 ```C#
 public static int WeightedRandom.GetInt(Dictionary<int, int> probabilities);
 
 //按照 Dictionary<数字, 这个数字的几率> 格式传入参数，即可按权重获取随机数
 ```
-#### 例子：
+#### 示例：
 ```C#
 int number = WeightedRandom.GetInt(
     new Dictionary<int, int>()
@@ -27,7 +31,7 @@ int number = WeightedRandom.GetInt(
 通过静态方法比较方便并且线程安全，但速度较慢。<br/>
 <br/>
 
-### 使用非静态方法：
+#### 使用非静态方法：
 ```C#
 //首先创建 WeightedRandom 对象，可以选择在创建时存入数字和几率
 public WeightedRandom();
@@ -40,7 +44,7 @@ public bool RemoveProbability(int value);
 //通过 GetInt 方法获取加权随机数
 public int WeightedRandom.GetInt();
 ```
-#### 例子：
+#### 示例：
 ```C#
 WeightedRandom random = new WeightedRandom();
 random.SetProbability(10, 1);
@@ -70,6 +74,7 @@ int number = random.GetInt();
 ## 文件夹内容
 | 文件夹 | 内容 |
 | ------ | :------ |
-| Assets/WeightedRandom.cs | 加权随机数代码 |
-| Assets/Demo | 演示场景和脚本 |
-| Assets/Editor/Tests | 测试代码 |
+| Assets/Weight Random Number/WeightedRandom.cs | 加权随机数代码 |
+| Assets/Weight Random Number/Demo | 演示场景和脚本 |
+| Assets/Weight Random Number/Editor/Tests | 测试代码 |
+| Build/Weight Random Number.unitypackage | 可以直接导入项目的资源包 |
