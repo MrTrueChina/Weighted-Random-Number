@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace MtC.Tools.Random
 {
@@ -14,7 +14,7 @@ namespace MtC.Tools.Random
         { }
 
         /// <summary>
-        /// Dictionary 的Key 对应值，Value 对应这个值的几率
+        /// 按照 Dictionary 的 Key 对应值，Value 对应这个值的几率的格式创建 WeightRandom 对象，如果几率不是正数则会被抛弃
         /// </summary>
         /// <param name="probabilities"></param>
         public WeightedRandom(Dictionary<int, int> probabilities)
@@ -23,7 +23,7 @@ namespace MtC.Tools.Random
             // 取出传入的 Dictionary 中的几率为正数的元素并转换为一个新的 Dictionary 保存起来
             //Dictionary.Where()：获取符合指定标准的元素存入一个 IEnumerable 中返回。一般参数是 Lambda 表达式，参数方法的标准是：参数是单个 KeyValuePair，返回值是表示是否符合标准的 bool
             //IEnumerable.ToDictionary()：将 IEnumerable 的元素按照指定标准转换为 Dictionary。参数是两个方法，参数都是单个 KeyValuePair，第一个返回值是 Dictionary 的 Key，第二个的返回值则是 Dictionary 的 Value
-            //这两个方法都是 System.Linq 提供的扩展方法
+            //这两个方法都是 System.Linq 提供的扩展方法，其中 Where 方法和 SQL 中的 where 十分相似
             //参数叫 p 是取了 probability 的首字母
 
             UpdateTotalProbability();
@@ -152,7 +152,7 @@ namespace MtC.Tools.Random
         }
 
         /// <summary>
-        /// 根据传入的加权几率随机返回一个int，注意 Dictionary 的 Key 对应值，Value 对应这个值的几率
+        /// 按照 Dictionary 的 Key 对应值，Value 对应这个值的几率的格式传入几率，根据几率返回加权随机数
         /// </summary>
         /// <param name="probabilities"></param>
         /// <returns></returns>
